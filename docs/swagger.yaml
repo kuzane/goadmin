@@ -1,0 +1,790 @@
+definitions:
+  goamin_server_model.ChangePasswordRequest:
+    properties:
+      confirm_password:
+        type: string
+      new_password:
+        minLength: 6
+        type: string
+      old_password:
+        type: string
+    required:
+    - confirm_password
+    - new_password
+    - old_password
+    type: object
+  goamin_server_model.Endpoint:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: integer
+      identity:
+        type: string
+      kind:
+        type: string
+      method:
+        type: string
+      module:
+        type: string
+      path:
+        type: string
+      remark:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/goamin_server_model.Role'
+        type: array
+      updated_at:
+        type: integer
+    type: object
+  goamin_server_model.Login:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  goamin_server_model.Role:
+    properties:
+      created_at:
+        type: integer
+      description:
+        type: string
+      endpoints:
+        items:
+          $ref: '#/definitions/goamin_server_model.Endpoint'
+        type: array
+      id:
+        type: integer
+      nickname:
+        type: string
+      parents:
+        items:
+          type: string
+        type: array
+      rolename:
+        type: string
+      status:
+        type: boolean
+      updated_at:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/goamin_server_model.User'
+        type: array
+    type: object
+  goamin_server_model.User:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: integer
+      description:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      nickname:
+        type: string
+      phone:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/goamin_server_model.Role'
+        type: array
+      status:
+        type: boolean
+      updated_at:
+        type: integer
+      username:
+        type: string
+    type: object
+  goamin_server_model.Userlog:
+    properties:
+      browser:
+        type: string
+      client_os:
+        type: string
+      created_at:
+        type: integer
+      duration:
+        type: integer
+      id:
+        type: integer
+      ip_addr:
+        type: string
+      method:
+        type: string
+      path:
+        type: string
+      start_at:
+        type: integer
+      status:
+        type: integer
+      updated_at:
+        type: integer
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /email/captcha:
+    post:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            type: string
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 获取邮箱验证码
+      tags:
+      - 必开接口
+  /login:
+    post:
+      parameters:
+      - description: 登录
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/goamin_server_model.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            type: string
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 用户登录
+      tags:
+      - 必开接口
+  /logout:
+    post:
+      consumes:
+      - application/json
+      responses:
+        "200":
+          description: '{"code": 200, "msg": "成功退出系统" }'
+          schema:
+            type: string
+      security: []
+      summary: 退出登陆
+      tags:
+      - 必开接口
+  /password:
+    put:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 更新的数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/goamin_server_model.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/goamin_server_model.ChangePasswordRequest'
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 修改个人信息
+      tags:
+      - 系统用户
+  /pwd/forgot:
+    post:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            type: string
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 通过邮箱重置密码
+      tags:
+      - 必开接口
+  /sys/logs:
+    delete:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 清空日志
+      tags:
+      - 系统日志
+    get:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: for response pagination, page offset number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: for response pagination, max items per page
+        in: query
+        name: perPage
+        type: integer
+      - description: 根据关键字进行查询
+        in: query
+        name: keyword
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: 成功
+          schema:
+            items:
+              $ref: '#/definitions/goamin_server_model.Userlog'
+            type: array
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 日志列表
+      tags:
+      - 系统日志
+  /sys/logs/{id}:
+    delete:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 角色id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 删除日志
+      tags:
+      - 系统日志
+  /sys/roles:
+    get:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: for response pagination, page offset number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: for response pagination, max items per page
+        in: query
+        name: perPage
+        type: integer
+      - description: 根据关键字进行查询
+        in: query
+        name: keyword
+        type: string
+      - description: 根据Rolename进行查询
+        in: query
+        name: rolename
+        type: string
+      - description: 根据nickname进行查询
+        in: query
+        name: nickname
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: 成功
+          schema:
+            items:
+              $ref: '#/definitions/goamin_server_model.Role'
+            type: array
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 角色列表
+      tags:
+      - 系统角色
+    post:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 角色数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/goamin_server_model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/goamin_server_model.Role'
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 创建角色
+      tags:
+      - 系统角色
+  /sys/roles/{id}:
+    delete:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 角色id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 删除角色
+      tags:
+      - 系统角色
+    get:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 角色id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/goamin_server_model.Role'
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 角色详情
+      tags:
+      - 系统角色
+    patch:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 模板id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 更新的数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/goamin_server_model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/goamin_server_model.Role'
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 修改角色
+      tags:
+      - 系统角色
+  /sys/roles/apis:
+    get:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/goamin_server_model.Endpoint'
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 获取接口树
+      tags:
+      - 系统角色
+  /sys/users:
+    get:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: for response pagination, page offset number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: for response pagination, max items per page
+        in: query
+        name: perPage
+        type: integer
+      - description: 根据关键字进行查询
+        in: query
+        name: keyword
+        type: string
+      - description: 根据username进行查询
+        in: query
+        name: username
+        type: string
+      - description: 根据nickname进行查询
+        in: query
+        name: nickname
+        type: string
+      - description: 根据email进行查询
+        in: query
+        name: email
+        type: string
+      - description: 根据phone进行查询
+        in: query
+        name: phone
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: 成功
+          schema:
+            items:
+              $ref: '#/definitions/goamin_server_model.User'
+            type: array
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 用户列表
+      tags:
+      - 系统用户
+    post:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/goamin_server_model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/goamin_server_model.User'
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 创建用户
+      tags:
+      - 系统用户
+  /sys/users/{id}:
+    delete:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 删除用户
+      tags:
+      - 系统用户
+    get:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/goamin_server_model.User'
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 用户详情
+      tags:
+      - 系统用户
+    patch:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 模板id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 更新的数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/goamin_server_model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/goamin_server_model.User'
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 修改用户
+      tags:
+      - 系统用户
+  /sys/users/info:
+    get:
+      parameters:
+      - default: Bearer <personal access token>
+        description: Insert your personal access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/goamin_server_model.User'
+        "400":
+          description: 请求错误
+          schema:
+            type: string
+        "500":
+          description: 内部错误
+          schema:
+            type: string
+      summary: 用户详情
+      tags:
+      - 系统用户
+swagger: "2.0"
