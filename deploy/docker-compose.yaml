@@ -1,7 +1,10 @@
 version: '3'
+networks:
+  goadmin:
+    driver: bridge
 services:
   mysql:
-    image: mysql:8.3
+    image: registry.cn-hangzhou.aliyuncs.com/kuzane/mysql:8.4.2
     container_name: mysql
     hostname: mysql
     restart: always
@@ -15,9 +18,16 @@ services:
     volumes:
       - ./data:/var/lib/mysql
       - ./base.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - goadmin
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   goadmin:
-    image: goadmin:latest
+    image: registry.cn-hangzhou.aliyuncs.com/kuzane/goadmin:latest
     container_name: goadmin
     hostname: goadmin
     restart: always
@@ -28,8 +38,11 @@ services:
       SERVER_PORT: 8000
       SERVER_HOST: http://localhost:8000
       DATABASE_DRIVER: mysql
-      DATABASE_DATASOURCE: root:123456@tcp(192.168.3.10:3306)/goadmin?parseTime=true
+      DATABASE_DATASOURCE: root:123456@tcp(mysql:3306)/goadmin?parseTime=true
       LOAD_WEB: true
       LOG_LEVEL: debug
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    networks:
+      - goadmin

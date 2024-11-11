@@ -25,12 +25,13 @@ LOAD_WEB=true
 ```
 
 
-3.快速体验
+# 3.快速体验
+- 所有账户密码均为: 123456
+```sh
+docker-compose up -d
+```
+
 - 构建项目容器
-```
+```sh
 make image
-```
-- 项目启动
-```
-make deploy
 ```
