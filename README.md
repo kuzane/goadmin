@@ -9,13 +9,29 @@
 
 前端项目基于：https://github.com/PanJiaChen/vue-element-admin
 
-# 2.项目启动
+# 2.快速体验
+- 所有账户密码均为: 123456
+```sh
+cd deploy && docker-compose up -d
+```
+
+# 3.项目部署
+
+- 构建容器示例命令：
+```sh
+docker build . -t goadmin:latest
+```
+
+
+# 4.项目开发
 需要在项目目录下创建一个 `.env`文件，配置下必要的参数
 ```env
 SERVER_PORT=8000
 SERVER_HOST=http://localhost:8000
 DATABASE_DRIVER=mysql
 DATABASE_DATASOURCE=root:123456@tcp(localhost:3306)/goadmin?parseTime=true
+#如果需要开启邮件功能,需要添加如下配置
+SMTP_DSN=smtp_user:smtp_pass:smtp_host:smtp_port:true
 ```
 - 前后端不分离启动项目
 
@@ -25,13 +41,3 @@ LOAD_WEB=true
 ```
 
 
-# 3.快速体验
-- 所有账户密码均为: 123456
-```sh
-docker-compose up -d
-```
-
-- 构建项目容器
-```sh
-make image
-```

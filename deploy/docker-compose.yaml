@@ -41,6 +41,7 @@ services:
       DATABASE_DATASOURCE: root:123456@tcp(mysql:3306)/goadmin?parseTime=true
       LOAD_WEB: true
       LOG_LEVEL: debug
+#      SMTP_DSN: smtp_user:smtp_pass:smtp_host:smtp_port:true #如果需要开启邮件功能需要填入此配置
     depends_on:
       mysql:
         condition: service_healthy
