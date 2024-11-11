@@ -5,7 +5,7 @@ import (
 
     "github.com/gin-gonic/gin"
 
-    "goamin/server/model"
+    "github.com/kuzane/goadmin/server/model"
 )
 
 const maxPageSize = 50

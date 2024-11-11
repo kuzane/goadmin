@@ -7,7 +7,7 @@ import (
 
     "gorm.io/gorm"
 
-    "goamin/server/model"
+    "github.com/kuzane/goadmin/server/model"
 )
 
 var allBeans = []any{

@@ -3,7 +3,7 @@ package datastore
 import (
     "context"
 
-    "goamin/server/model"
+    "github.com/kuzane/goadmin/server/model"
 )
 
 func (s storage) ServerConfigDelete(c context.Context, k string) error {

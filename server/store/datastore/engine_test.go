@@ -6,8 +6,8 @@ import (
 
     "github.com/joho/godotenv"
 
-    "goamin/server/store"
-    "goamin/server/store/datastore"
+    "github.com/kuzane/goadmin/server/store"
+    "github.com/kuzane/goadmin/server/store/datastore"
 )
 
 var (

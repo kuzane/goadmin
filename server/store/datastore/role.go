@@ -7,8 +7,8 @@ import (
     "gorm.io/gorm"
     "gorm.io/gorm/clause"
 
-    "goamin/server"
-    "goamin/server/model"
+    "github.com/kuzane/goadmin/server"
+    "github.com/kuzane/goadmin/server/model"
 )
 
 func (s *storage) CreateRole(c context.Context, v *model.Role) (err error) {

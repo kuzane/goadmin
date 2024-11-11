@@ -1,4 +1,4 @@
-module goamin
+module github.com/kuzane/goadmin
 
 go 1.22.5
 

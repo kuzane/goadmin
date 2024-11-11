@@ -6,16 +6,16 @@ import (
     "os"
     "strings"
 
-    "goamin/server/router/middleware/token"
+    "github.com/kuzane/goadmin/server/router/middleware/token"
 
     "github.com/gin-gonic/gin"
     "github.com/rs/zerolog/log"
 
-    "goamin/server"
-    "goamin/server/api/v1/http"
-    "goamin/server/model"
-    "goamin/server/router/middleware/session"
-    "goamin/server/store"
+    "github.com/kuzane/goadmin/server"
+    "github.com/kuzane/goadmin/server/api/v1/http"
+    "github.com/kuzane/goadmin/server/model"
+    "github.com/kuzane/goadmin/server/router/middleware/session"
+    "github.com/kuzane/goadmin/server/store"
 )
 
 func apiRoutes(e *gin.RouterGroup, _store store.Store) {

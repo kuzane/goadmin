@@ -6,7 +6,7 @@ import (
 
     "gorm.io/gorm"
 
-    "goamin/server/model"
+    "github.com/kuzane/goadmin/server/model"
 )
 
 func (s *storage) CreateEndpoint(c context.Context, v *model.Endpoint) (err error) {

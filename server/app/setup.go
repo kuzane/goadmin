@@ -13,9 +13,9 @@ import (
     "github.com/urfave/cli/v3"
     "gorm.io/gorm"
 
-    "goamin/server"
-    "goamin/server/store"
-    "goamin/server/store/datastore"
+    "github.com/kuzane/goadmin/server"
+    "github.com/kuzane/goadmin/server/store"
+    "github.com/kuzane/goadmin/server/store/datastore"
 )
 
 func setupServerHost(c *cli.Command) error {

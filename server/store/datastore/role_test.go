@@ -3,7 +3,7 @@ package datastore_test
 import (
     "testing"
 
-    "goamin/server/model"
+    "github.com/kuzane/goadmin/server/model"
 )
 
 func TestCreateRole(t *testing.T) {
