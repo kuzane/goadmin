@@ -2,7 +2,7 @@ FROM golang:1.22.5-alpine3.20  as application
 ENV WORKDIR /app
 ENV GOPROXY https://goproxy.cn
 WORKDIR $WORKDIR
-COPY .. $WORKDIR
+COPY . $WORKDIR
 RUN cd /app && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" cmd/main.go
 
 FROM node:18 as frontend
