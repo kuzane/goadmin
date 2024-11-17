@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goadmin
+  namespace: goadmin
+  labels:
+    app: goadmin
+spec:
+  replicas: 1
+  minReadySeconds: 20
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: goadmin
+  template:
+    metadata:
+      labels:
+        app: goadmin
+    spec:
+      containers:
+      - name: goadmin
+        image: registry.cn-hangzhou.aliyuncs.com/kuzane/goadmin:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8000
+            name: http
+            protocol: TCP
+
+        resources:
+          requests:
+            memory: 100M
+            cpu: 100m
+          limits:
+            memory: 100M
+            cpu: 100m
+
+        # livenessProbe:
+        #   failureThreshold: 3
+        #   httpGet:
+        #     path: /metric
+        #     port: 8000
+        #     scheme: HTTP
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 1
+        # readinessProbe:
+        #   failureThreshold: 1
+        #   httpGet:
+        #     path: /metric
+        #     port: 8000
+        #     scheme: HTTP
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 5
+        #   successThreshold: 1
+        #   timeoutSeconds: 1
+
+        envFrom:
+          - configMapRef:
+              name: goadmin
+
+      #   volumeMounts:
+      #     - mountPath: /app/config/config.yaml
+      #       name: config
+      #       subPath: config.yaml
+
+
+      # volumes:
+      #   - configMap:
+      #       defaultMode: 420
+      #       name: watchalert
+      #     name: config

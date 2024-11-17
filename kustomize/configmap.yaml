@@ -1,0 +1,15 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: goadmin
+  namespace: goadmin
+data:
+  TZ: Asia/Shanghai
+  SERVER_PORT: "8000"
+  SERVER_HOST: http://localhost:8000
+  DATABASE_DRIVER: mysql
+  DATABASE_DATASOURCE: root:123456@tcp(192.168.3.10:3306)/goadmin?parseTime=true
+  LOAD_WEB: "true"
+  LOG_LEVEL: debug
+  #SMTP_DSN: smtp_user:smtp_pass:smtp_host:smtp_port:true 
