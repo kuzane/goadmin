@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: goadmin
-        image: registry.cn-hangzhou.aliyuncs.com/kuzane/goadmin:latest
+        image: kuzane/goadmin:latest
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 8000

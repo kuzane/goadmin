@@ -15,7 +15,7 @@
 cd deploy && docker-compose up -d
 ```
 
-# 3.项目部署
+# 3.构建部署
 
 ## 3.1.docker本地构建坚信
 - 构建容器示例命令：
@@ -27,6 +27,12 @@ docker build . -t goadmin:latest
 默认提交变更会将本项目生成两个镜像推送到docker hub上,其一为镜像tag为commit id，其二镜像tag为latest，拉取镜像为
 ```sh
 docker pull kuzane/goadmin:latest
+```
+
+## 3.4.k8s部署
+- 利用构建的镜像进行goadmin部署，默认镜像使用的`kuzane/goadmin:latest` 
+```sh
+ kustomize build kustomize/ |kubectl apply -f -
 ```
 
 

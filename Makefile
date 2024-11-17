@@ -13,7 +13,7 @@ web:
 
 .PHONY: image
 image:
-	docker build . -t goadmin:latest
+	docker build . -t  goadmin:latest
 
 
 .PHONY: deploy

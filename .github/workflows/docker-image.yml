@@ -25,6 +25,7 @@ jobs:
     - name: build image
       run: |
         make image
-        docker tag  kuzane/goadmin:latest ${{ secrets.DOCKER_USERNAME }}/goadmin:${{ github.sha }}
-        docker push ${{ secrets.DOCKER_USERNAME }}/goadmin:${{ github.sha }}
+        docker tag  goadmin:latest  kuzane/goadmin:latest
+        docker tag  goadmin:latest ${{ secrets.DOCKER_USERNAME }}/goadmin:${{ github.sha }}
         docker push kuzane/goadmin:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/goadmin:${{ github.sha }}
