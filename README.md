@@ -17,9 +17,16 @@ cd deploy && docker-compose up -d
 
 # 3.项目部署
 
+## 3.1.docker本地构建坚信
 - 构建容器示例命令：
 ```sh
 docker build . -t goadmin:latest
+```
+
+## 3.2.github ci构建
+默认提交变更会将本项目生成两个镜像推送到docker hub上,其一为镜像tag为commit id，其二镜像tag为latest，拉取镜像为
+```sh
+docker pull kuzane/goadmin:latest
 ```
 
 
@@ -39,5 +46,4 @@ SMTP_DSN=smtp_user:smtp_pass:smtp_host:smtp_port:true
 ```env
 LOAD_WEB=true
 ```
-
 
