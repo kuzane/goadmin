@@ -10,7 +10,7 @@ ENV WORKDIR /app
 WORKDIR $WORKDIR
 COPY web $WORKDIR
 # RUN cd /app && npm install --registry=https://registry.npmmirror.com && npm run build:prod
-RUN cd /app && npm run build:prod
+RUN cd /app && npm install && npm run build:prod
 
 FROM alpine:latest
 ENV WORKDIR /app
