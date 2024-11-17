@@ -10,7 +10,7 @@ ENV WORKDIR /app
 WORKDIR $WORKDIR
 COPY web $WORKDIR
 # RUN cd /app && npm install --registry=https://registry.npmmirror.com && npm run build:prod
- RUN cd /app && npm run build:prod
+RUN cd /app && npm run build:prod
 
 FROM alpine:latest
 ENV WORKDIR /app
@@ -23,7 +23,6 @@ WORKDIR $WORKDIR
 #   	cp -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
 #   	apk del tzdata && \
 #   	rm -rf /var/cache/apk/*
-
 RUN apk update && \
     mkdir -pv web/dist &&\
   	apk --no-cache add tzdata && \
