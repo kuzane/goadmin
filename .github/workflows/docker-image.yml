@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Docker Login
+      uses: docker/login-action@v2
+      with:
+      #使用自定义的注册表（默认为 Docker Hub）
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        logout: true
+    
+    - name: build image
+      run: |
+        make image
+        docker tag goadmin:latest ${{ secrets.USERNAME }}/flask-demo:${{ github.sha }}
+        docker push ${{ secrets.USERNAME }}/goadmin:${{ github.sha }}
