@@ -52,6 +52,3 @@ SMTP_DSN=smtp_user:smtp_pass:smtp_host:smtp_port:true
 ```env
 LOAD_WEB=true
 ```
-
-
-
